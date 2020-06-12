@@ -55,6 +55,8 @@ public class KeyBoardMonitor implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if(Test.player1.attackpoint!=0)
+            return;
         Test.player1.SwitchImage(1);
     }
 }

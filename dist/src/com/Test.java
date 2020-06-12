@@ -16,7 +16,7 @@ import java.util.List;
 public class Test {
     
     public static List<photo> totalList = new ArrayList<>(); // 转型成接口列表，用于每次JPlane重画
-    static List<Image> picList1 = new ArrayList<>();
+
     static Background background1 = new Background("src/resources/b1.jpg");
 
     //特殊标注变量区
@@ -55,13 +55,8 @@ public class Test {
         daemon.start();
     }
 
-    static {
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/关羽_静止.gif"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/关羽_移动.gif"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/关羽_攻击.gif"));
 
-    }
-    public static Player player1 = new Player(14, picList1, 20, 100, 150, 85, 10, 50);
+    public static Player player1 = new Player(14, Player.picList1, 20, 100, 150, 85, 10, 50);
     static NormalPhoto LogoPhoto = new NormalPhoto("src/resources/logo1.jpg",100,100,400,400);
     static NormalPhoto MenuPhoto = new NormalPhoto("src/resources/MenuPhoto.png",0,0,200,20);
     static NormalPhoto MenuOpenPhoto = new NormalPhoto("src/resources/MenuOpenPhoto.png",100,100,400,400);
@@ -86,39 +81,45 @@ public class Test {
 
     public static void modifyPlayer(Command InputKey) {
         if (InputKey == Command.UP) {
+            if(player1.attackpoint!=0)
+                return;
             player1.MoveUp();
-            player1.SwitchImage(2);
+            player1.MoveSwitchPic();
             return;
         }
         if (InputKey == Command.LEFT) {
+            if(player1.attackpoint!=0)
+                return;
             if(background[LevelGlobal].getX() <= 0)
                 background[LevelGlobal].moveRight(player1.speed);
             else player1.MoveLeft();
-            player1.SwitchImage(2);
+            player1.MoveSwitchPic();
             return;
         }
         if (InputKey == Command.DOWN) {
+            if(player1.attackpoint!=0)
+                return;
             player1.MoveDown();
-            player1.SwitchImage(2);
+            player1.MoveSwitchPic();
             return;
         }
         if (InputKey == Command.RIGHT) {
+            if(player1.attackpoint!=0)
+                return;
             if(player1.getX() <= 450)
                 player1.MoveRight();
             else background[LevelGlobal].moveLeft(player1.speed);
-            player1.SwitchImage(2);
+            player1.MoveSwitchPic();
             return;
         }
         if (InputKey == Command.ATTACK) {
-            player1.Attack(1, 30, 10);
-            player1.SwitchImage(3);
-            try {
-                new Thread(attackSound).start();
-                Thread.sleep(100);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
+            if(player1.attackpoint!=0)
+                return;
+            player1.Attack(1, 30, 50);
+            player1.AttackSwitchPic();
+
         }
+
     }
 
     public static void ShowWelcomePage()
@@ -247,6 +248,9 @@ public class Test {
                 e.printStackTrace();
             }
             PlayerHP.UpdateHP(player1.curHP);
+            if(player1.attackpoint!=0){
+                player1.AttackSwitchPic();
+            }
             List<Enemy> enemyList = EnemyList.getInstance().enemyList;
             Iterator<Enemy> iterator = enemyList.iterator();
             while (iterator.hasNext()){

@@ -4,10 +4,33 @@ import com.part.Level;
 import com.part.Point;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends People
 {
+    public static List<Image> picList1 = new ArrayList<>();
+    static {
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_staycool/Guan_staycool_0.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_0.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_1.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_2.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_3.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_4.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_5.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_0.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_1.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_2.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_3.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_4.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_5.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_6.jpg"));
+
+
+    }
+
+    public int attackpoint=0;
+    public int movepoint=0;
     int KillNumber=0;
     public int xMax=1000,xMin=30,yMax=500,yMin=40;
     public int speed;
@@ -15,7 +38,7 @@ public class Player extends People
 
     EnemyList EnList = EnemyList.getInstance();
 
-    public Player(int HP, List<Image> picList, int x, int y, int height, int width,int speed,int attack) 
+    public Player(int HP, List<Image> picList, int x, int y, int height, int width,int speed,int attack)
     {
         super(HP, picList, x, y, height, width,attack);
         this.speed=speed;
@@ -45,9 +68,28 @@ public class Player extends People
         }
         level.update(0);
     }
-    
+
     public void updateCnt(){
         level.updateCnt();
+    }
+
+    //运动切换
+    public void MoveSwitchPic(){
+        this.setCurNum(2+movepoint);
+        movepoint++;
+        if(movepoint==6)
+            movepoint=0;
+    }
+
+    public void AttackSwitchPic(){
+        this.setCurNum(8+attackpoint);
+        attackpoint++;
+        if(attackpoint==7)
+        {
+            attackpoint=0;
+            this.setCurNum(1);
+        }
+
     }
 
     public void setMapLimit()
@@ -63,7 +105,7 @@ public class Player extends People
         xMin=ax1; xMax=ax2;
         yMin=ay1; yMax=ay2;
     }
-    
+
 
     //移动
     public void MoveUp()
