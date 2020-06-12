@@ -31,7 +31,7 @@ public class Enemy extends People {
     public int movpoint=0;
     public int speed=5;
     public Enemy(){
-        super(40, picListEnemy,((int)(Math.random() * 500)%2)*1000,(int)(Math.random() * 50), 170, 85, 5);
+        super(40, picListEnemy,((int)(Math.random() * 500)%2)*1000,(int)(Math.random() * 50), 170, 85, 1);
     }
 
     public Enemy(int HP, List<Image> picList, int x, int y, int height, int width, int speed, int attack) {

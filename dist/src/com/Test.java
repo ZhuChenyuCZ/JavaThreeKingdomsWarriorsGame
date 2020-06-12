@@ -6,6 +6,7 @@ import com.people.EnemyList;
 import com.people.Player;
 import com.part.Point;
 import com.part.Music;
+import com.part.HpInfo;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class Test {
         picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/关羽_攻击.gif"));
 
     }
-    public static Player player1 = new Player(2500, picList1, 20, 100, 150, 85, 10, 50);
+    public static Player player1 = new Player(14, picList1, 20, 100, 150, 85, 10, 50);
     static NormalPhoto LogoPhoto = new NormalPhoto("src/resources/logo1.jpg",100,100,400,400);
     static NormalPhoto MenuPhoto = new NormalPhoto("src/resources/MenuPhoto.png",0,0,200,20);
     static NormalPhoto MenuOpenPhoto = new NormalPhoto("src/resources/MenuOpenPhoto.png",100,100,400,400);
@@ -165,7 +166,9 @@ public class Test {
 
         totalList.add(background[Level]);
         KeyBoardMonitor keyBoardMonitor = new KeyBoardMonitor();
+        HpInfo PlayerHP=new HpInfo(1);
         totalList.add(player1);
+        totalList.add(PlayerHP);
         for(int i = 0; i < 5; ++i){
             points[i] = new Point(200 + i * 30);
             totalList.add(points[i]);
@@ -243,6 +246,7 @@ public class Test {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            PlayerHP.UpdateHP(player1.curHP);
             List<Enemy> enemyList = EnemyList.getInstance().enemyList;
             Iterator<Enemy> iterator = enemyList.iterator();
             while (iterator.hasNext()){
