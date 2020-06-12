@@ -5,6 +5,7 @@ import com.people.Enemy;
 import com.people.EnemyList;
 import com.people.Player;
 import com.part.Point;
+import com.part.Music;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -42,6 +43,15 @@ public class Test {
             points[i] = new Point(200 + i * 30);
             totalList.add(points[i]);
         }
+    }
+
+    //关于音乐
+    static Music attackSound = new Music("src/resources/attack_1.wav", false);
+    static{
+        Music music = new Music("src/resources/background_music.wav", true);
+        Thread daemon = new Thread(music);
+        daemon.setDaemon(true);
+        daemon.start();
     }
 
     static {
@@ -102,6 +112,7 @@ public class Test {
             player1.Attack(1, 30, 10);
             player1.SwitchImage(3);
             try {
+                new Thread(attackSound).start();
                 Thread.sleep(100);
             }catch (InterruptedException e){
                 e.printStackTrace();
