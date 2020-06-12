@@ -11,6 +11,7 @@ public class Player extends People
 {
     public static List<Image> picList1 = new ArrayList<>();
     static {
+<<<<<<< HEAD:src/com/people/Player.java
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_staycool/Guan_staycool_0.jpg"));
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move/Guan_move_0.jpg"));
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move/Guan_move_1.jpg"));
@@ -25,6 +26,22 @@ public class Player extends People
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_4.jpg"));
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_5.jpg"));
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_6.jpg"));
+=======
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_staycool/Guan_staycool_0.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_0.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_1.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_2.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_3.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_4.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_5.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_0.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_1.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_2.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_3.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_4.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_5.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_6.jpg"));
+>>>>>>> ff70fb072e2db6935eb85ba3fba6cdbb84491243:dist/src/com/people/Player.java
 
 
     }
