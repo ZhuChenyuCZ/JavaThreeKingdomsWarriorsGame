@@ -21,7 +21,6 @@ public class Level implements photo{
     public void updateCnt(){
         ++ cnt;
         if(cnt == 5){
-            Test.demoPlane.removeThing(this);
             cnt = 0;
         }
     }
@@ -36,7 +35,6 @@ public class Level implements photo{
                 break;
         }
         if(experience > levelRage[level]){
-            Test.totalList.add(this);
             for(int i = 0;i < 5; ++ i){
                 if(level >= levelRage[i])
                     level = i;

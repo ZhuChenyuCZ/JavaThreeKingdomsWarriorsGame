@@ -38,8 +38,14 @@ public class Control extends Thread {
                             enemy.AttackPostivie(player1);
                         }
                     }
-                    else if(dist < enemy.speed && System.currentTimeMillis() - enemy.attackTimeStamp > 1000)
+                    else if(dist < 2*enemy.speed && System.currentTimeMillis() - enemy.attackTimeStamp > 1000)
                     {
+                        enemy.Attack(player1,1,1);
+                        enemy.SwitchImage(enemy.Dir*enemy.divide+2);
+                        enemy.attackpoint++;
+                        lock.notifyAll();
+                    }
+                    else if(enemy instanceof EnemyB&&dist < 23 && System.currentTimeMillis() - enemy.attackTimeStamp > 1000){
                         enemy.Attack(player1,1,1);
                         enemy.SwitchImage(enemy.Dir*enemy.divide+2);
                         enemy.attackpoint++;

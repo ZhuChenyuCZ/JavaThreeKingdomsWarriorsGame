@@ -45,12 +45,12 @@ public class Enemy extends People {
     public int speed=5;
     public long attackTimeStamp, moveTimeStamp;
     public Enemy(){
-        super(40, picListEnemy,((int)(Math.random() * 500)%2)*1000,(int)(Math.random() * 500), 170, 85, 1);
+        super(40, picListEnemy,((int)(Math.random() * 500)%2)*1000,(int)(Math.random() * 300)+200, 130, 70, 1);
     }
 
     public Enemy(int Diff)
     {
-        super(50*Diff, picListEnemy,((int)(Math.random() * 500)%2)*1000,(int)(Math.random() * 500), 170, 85, Diff);
+        super(30*Diff, picListEnemy,((int)(Math.random() * 500)%2)*1000,(int)(Math.random() * 300)+200, 130, 70, 1+(int)(Diff*0.4));
     }
 
     public Enemy(int HP, CopyOnWriteArrayList<Image> picList, int x, int y, int height, int width, int speed, int attack) {
@@ -75,7 +75,8 @@ public class Enemy extends People {
         double dis=Math.sqrt(Math.pow(a.x-this.x,2)+Math.pow(a.y-this.y,2));
         double movx=speed/dis*(a.x-this.x);
         double movy=speed/dis*(a.y-this.y);
-        if(dis<speed){
+        if(dis<speed*2){
+            this.setCurNum(Dir*divide+1);
             movx=0;
             movy=0;
         }
@@ -86,19 +87,19 @@ public class Enemy extends People {
     public void Attack(Player a,int LImage,int RImage){
         attackTimeStamp =  System.currentTimeMillis();
         double dis=Math.sqrt(Math.pow(a.x-this.x,2)+Math.pow(a.y-this.y,2));
-        if(dis>a.speed)
+        if(dis>a.speed*2)
             return;
       //  if(Dir==1)
       //      this.setCurNum(LImage);
       //  else if (Dir==0)
       //      this.setCurNum(RImage);
-        a.DieOrAlive(false,Attack);
+      //  a.DieOrAlive(false,Attack);
         //剩下的要考虑切换图片之类的先不写了
     }
 
     public void AttackPostivie(Player a){
         double dis=Math.sqrt(Math.pow(a.x-this.x,2)+Math.pow(a.y-this.y,2));
-        if(dis<a.speed)
+        if(dis<a.speed*2)
             a.DieOrAlive(false,Attack);
     }
 

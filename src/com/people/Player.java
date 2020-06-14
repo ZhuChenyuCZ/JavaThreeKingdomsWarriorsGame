@@ -49,7 +49,7 @@ public class Player extends People
     public int movepoint=0;
     public int divide=14;
     public int KillNumber=0;
-    public int xMax=1000,xMin=30,yMax=500,yMin=40;
+    public int xMax=1000,xMin=30,yMax=500,yMin=180;
     public int speed;
     private Level level;
 
@@ -127,7 +127,7 @@ public class Player extends People
     {
         //设置地图大小限制(默认)
         xMin=0; xMax=1000;
-        yMin=0; yMax=500;
+        yMin=300; yMax=520;
     }
 
     public void setMapLimit(int ax1,int ax2,int ay1,int ay2)
@@ -142,13 +142,13 @@ public class Player extends People
     public void MoveUp()
     {
         y=y-speed;
-        if (y<=yMin) y=yMin+10;
+        if (y<=yMin) y=yMin+speed;
     }
 
     public void MoveDown()
     {
         y=y+speed;
-        if (y>=yMax) y=yMax-10;
+        if (y>=yMax) y=yMax-speed;
     }
 
     public void MoveLeft()
@@ -159,7 +159,7 @@ public class Player extends People
             this.Dir=1; //调整方向
         }
         x=x-speed;//左向
-        if (x<=xMin) x=xMin+10;
+        if (x<=xMin) x=xMin+speed;
 
     }
 
@@ -171,7 +171,7 @@ public class Player extends People
         }
         //右向
         x = x + speed;
-        if (x >= xMax) x = xMax - 10;
+        if (x >= xMax) x = xMax - speed;
 
     }
 
@@ -191,12 +191,24 @@ public class Player extends People
 
     public void AttackType1(int distance,int damage)
     {
+        int len;
+        len=EnList.enemyList.size();
         //type1 1为半圆形近距离攻击。
-        for (int i=0;i<EnList.enemyList.size();i++)
+        for (int i=0;i<len;i++)
         {
             if (TouchOrNot(x, y, EnList.enemyList.get(i).x, EnList.enemyList.get(i).y,distance))
             {
-                EnList.enemyList.get(i).DieOrAlive(false,damage);
+                if(EnList.enemyList.get(i).x<x&&Dir==1){
+                    EnList.enemyList.get(i).DieOrAlive(false,damage);
+                    //EnList.enemyList.get(i).x-=10;
+                }
+
+                else if(EnList.enemyList.get(i).x>=x&&Dir==0){
+                    EnList.enemyList.get(i).DieOrAlive(false,damage);
+                    //EnList.enemyList.get(i).x+=10;
+                }
+                len=EnList.enemyList.size();
+
             }
         }
         //切换图片未添加
@@ -206,7 +218,7 @@ public class Player extends People
     {
         double dis=Math.sqrt((x-a)*(x-a)+(y-b)*(y-b));
 
-        if (dis>distance+1)
+        if (dis>distance+10)
             return false;
 
         return true;

@@ -1,9 +1,7 @@
 package com;
 
 import com.base.*;
-import com.people.Enemy;
-import com.people.EnemyList;
-import com.people.Player;
+import com.people.*;
 import com.part.Point;
 import com.part.Music;
 import com.part.HpInfo;
@@ -28,7 +26,7 @@ public class Test {
     static int BeginChoice=0,DiffChoooseOp1=2,DiffChoooseOp2=0,DiffLevel=2,ImproveWhich;
     static int FanHuiNali=1,GoHome=0;
 
-    static int[][] EnemyNumber = new int[5][10]; 
+    static int[][] EnemyNumber = new int[4][8];
     static{
         EnemyNumber[1][1]=3;
         EnemyNumber[1][2]=4;
@@ -112,16 +110,19 @@ public class Test {
     static NormalPhoto StoryPhoto = new NormalPhoto("./resources/StoryPhoto.png",20,100,600,400);
     static NormalPhoto DeveloperPhoto = new NormalPhoto("./resources/DeveloperPhoto.png",20,100,600,400);
 
+
     public static void main(String[] args) {
         while (FanHuiNali!=0)
         {
             
             if (FanHuiNali==0) break;
             ShowWelcomePage();
-            
+            if (FanHuiNali==0) break;
             BeginMenuChooseArea();
-
-            ShowScore();
+            if (FanHuiNali==0) break;
+            if(player1.KillNumber!=0)
+                ShowScore();
+            if (FanHuiNali==0) break;
             System.out.println("FanHui:"+FanHuiNali);
         }
 
@@ -129,13 +130,15 @@ public class Test {
         System.out.println("Game End.");
     }
 
-    public static void BeginMenuChooseArea() {
-        int next = 1;
+    public static void BeginMenuChooseArea()
+    {
+        int next=1;
         int lastnext = 1;
-        if (BeginChoice == 0)
+        if (BeginChoice == 0) 
             return;
-        if (BeginChoice == 1) {
-            // 开始游戏
+        if (BeginChoice == 1) 
+        {
+            //开始游戏
             ChooseGameDiff();
             Control control = new Control();
             executor.execute(control);
@@ -174,6 +177,9 @@ public class Test {
     }
 
     public static void ShowWelcomePage() {
+        RestartSignal=0;QuitSignal=0;
+        BeginChoice=0;DiffChoooseOp1=2;DiffChoooseOp2=0;DiffLevel=2;
+        FanHuiNali=1;GoHome=0;
         // 大概就是一个开始的界面。
         // 显示logo
         totalList.clear();
@@ -201,13 +207,15 @@ public class Test {
         while (BeginChoice == 0) {
             otherKeyBoardThing();
             try {
-                Thread.sleep(200);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             if (BeginChoice != 0)
                 break;
+
         }
+
 
     }
 
@@ -219,10 +227,11 @@ public class Test {
         // 清除原本内容
         demoPlane.removeAll();
 
+
         EnemyList.getInstance().enemyList.clear();
         player1.curHP = player1.HP;
-        player1.x = 20;
-        player1.y = 100;
+        player1.x =300;
+        player1.y = 300;
         player1.height = 150;
         player1.width = 85;
         // 20, 100, 150, 85
@@ -236,8 +245,8 @@ public class Test {
 
         demoPlane.addThing(background);
         demoPlane.addThing(player1);
-        for (int i = 0; i < 5; ++i) {
-            points[i] = new Point(360 + i * 30);
+        for(int i = 0; i < 5; ++i){
+            points[i] = new Point(200 + i * 30);
             totalList.add(points[i]);
         }
 
@@ -256,6 +265,16 @@ public class Test {
             Enemy oneEnemy = new Enemy(DiffLevel);
             EnemyList.getInstance().enemyList.add(oneEnemy);
             totalList.add(oneEnemy);
+            if(i>4){
+                oneEnemy = new EnemyA(DiffLevel);
+                EnemyList.getInstance().enemyList.add(oneEnemy);
+                totalList.add(oneEnemy);
+            }
+            if(i>7){
+                oneEnemy = new EnemyB(DiffLevel);
+                EnemyList.getInstance().enemyList.add(oneEnemy);
+                totalList.add(oneEnemy);
+            }
         }
 
         player1.update0(points);
@@ -279,10 +298,13 @@ public class Test {
         totalList.remove(GoPhoto);
         demoPlane.repaint();
 
-        if (ImproveWhich == 1) {
-            player1.speed = player1.speed + 20;
-        } else {
-            player1.Attack = player1.Attack + 20;
+        if (ImproveWhich==1)
+        {
+            player1.speed=player1.speed+5;
+        }
+        else
+        {
+            player1.Attack=player1.Attack+20;
         }
 
         while (true) {
@@ -333,13 +355,13 @@ public class Test {
                 player1.AttackSwitchPic();
             }
             player1.updateCnt();
-            // System.out.println(player1.curNum);
+            //System.out.println(player1.curNum);
             demoPlane.repaint();
-            try {
-                Thread.sleep(80);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+             try {
+                 Thread.sleep(80);
+             } catch (InterruptedException e){
+                 e.printStackTrace();
+             }
 
             synchronized (lock) {
                 lock.notifyAll();
@@ -393,47 +415,51 @@ public class Test {
 
     }
 
-    public static void ImprovePointPage() {
+    public static void ImprovePointPage()
+    {
 
         DiffChoooseOp1 = 2;
         DiffChoooseOp2 = 0;
 
         totalList.add(SuccessPhoto);
         totalList.add(Hint1Photo);
-        demoPlane.repaint();
         try {
-            Thread.sleep(150);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        Command.keySet.clear();
+        Thread.sleep(1000);
+    } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
 
-        while (DiffChoooseOp2 == 0) {
+        while (DiffChoooseOp2 == 0)
+        {
+
             otherKeyBoardThing();
-            if (DiffChoooseOp2 != 0)
+            if (DiffChoooseOp2!=0)
                 break;
-            ImproveWhich = DiffChoooseOp1;
-            if (DiffChoooseOp1 == 1 || DiffChoooseOp1 == 3) {
-                // System.out.println(DiffChoooseOp1);
+            ImproveWhich=DiffChoooseOp1;
+            if (DiffChoooseOp1 == 1|| DiffChoooseOp1==3)
+            {
+                //System.out.println(DiffChoooseOp1);
                 totalList.add(ISpeedPhoto);
                 totalList.add(NIAttackPhoto);
                 demoPlane.repaint();
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 totalList.remove(ISpeedPhoto);
                 totalList.remove(NIAttackPhoto);
-            } else if (DiffChoooseOp1 == 2) {
-                // System.out.println(DiffChoooseOp1);
+            }
+            else if (DiffChoooseOp1 == 2)
+            {
+                //System.out.println(DiffChoooseOp1);
                 totalList.add(NISpeedPhoto);
                 totalList.add(IAttackPhoto);
                 demoPlane.repaint();
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -442,16 +468,19 @@ public class Test {
                 totalList.remove(IAttackPhoto);
             }
         }
-        if (ImproveWhich == 3) {
-            ImproveWhich = 1;
+        if (ImproveWhich==3)
+        {
+            ImproveWhich=1;
         }
         totalList.remove(SuccessPhoto);
         totalList.remove(Hint1Photo);
     }
 
-    public static void ShowByePage() {
+    public static void ShowByePage()
+    {
 
-        // 显示logo
+        //显示logo
+        //totalList.clear();
         totalList.clear();
         totalList.add(LogoPhoto);
         totalList.add(ByeWordPhoto);
@@ -468,7 +497,7 @@ public class Test {
         totalList.remove(ByeWordPhoto);
         demoPlane.repaint();
         System.exit(0);
-        // demoPlane.removeThing(LogoPhoto);
+        //demoPlane.removeThing(LogoPhoto);
     }
 
     public static void ShowScore()
@@ -561,7 +590,6 @@ public class Test {
         }
         else if(Command.END.use()){
             Test.BeginMenuControl(Command.END);
-            FanHuiNali=0;
             System.out.println("OK to Fanhui");
         }
         else if(Command.HOME.use()){
@@ -569,6 +597,7 @@ public class Test {
             GoHome=1;
             System.out.println("OK to GoHome");
         }
+        
     }
 
     public static void modifyPlayer() {
@@ -594,6 +623,9 @@ public class Test {
             {
                 player1.Dir=1;
                 background.moveRight(player1.speed);
+                for(Enemy t:EnemyList.getInstance().enemyList){
+                    t.x+=player1.speed;
+                }
             }
 
             else player1.MoveLeft();
@@ -614,6 +646,9 @@ public class Test {
             {
                 player1.Dir=0;
                 background.moveLeft(player1.speed);
+                for(Enemy t:EnemyList.getInstance().enemyList){
+                    t.x-=player1.speed;
+                }
             }
             player1.MoveSwitchPic();
             //return;
@@ -647,6 +682,7 @@ public class Test {
             QuitSignal = 1;
             return;
         }
+
     }
 
     public static void BeginMenuControl(Command InputKey)
@@ -667,8 +703,9 @@ public class Test {
             BeginChoice=4;
             return;
         }
-        if (InputKey == Command.END){
+        if(InputKey==Command.END){
             BeginChoice=5;
+            FanHuiNali=0;
             return;
         }
     }
@@ -690,5 +727,12 @@ public class Test {
             DiffChoooseOp2=1;
             return;
         }
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 }
