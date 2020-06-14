@@ -46,27 +46,32 @@ public class Level implements photo{
     }
 
     @Override
-    public int getX() {
+    public int getX()
+    {
         return x;
     }
 
     @Override
-    public int getY() {
+    public int getY()
+    {
         return y;
     }
 
     @Override
-    public int getWidth() {
+    public int getWidth()
+    {
         return width;
     }
 
     @Override
-    public int getHeight() {
+    public int getHeight()
+    {
         return height;
     }
 
     @Override
-    public Image getImage(){
+    public Image getImage()
+    {
         return image;
     }
 }

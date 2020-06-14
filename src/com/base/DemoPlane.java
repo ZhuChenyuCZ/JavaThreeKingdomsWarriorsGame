@@ -27,7 +27,7 @@ public class DemoPlane extends JPanel {
         while (iterator.hasNext()){
             photo temp = iterator.next();
             if(temp == thing){
-                iterator.remove();
+                list.remove(temp);
             }
         }
     }

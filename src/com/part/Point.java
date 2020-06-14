@@ -21,10 +21,15 @@ public class Point implements photo {
         imageList.add(new ImageIcon("./resources/number8.jpg").getImage());
         imageList.add(new ImageIcon("./resources/number9.jpg").getImage());
     }
-    private int y = 10, width = 25, height = 25;
+    private int y = 18, width = 25, height = 25;
     private int x,curNum;
     public Point(int x){
         this.x = x;
+    }
+
+    public Point(int x,int y)
+    {
+        this.x=x; this.y=y;
     }
 
     public void update(int num){

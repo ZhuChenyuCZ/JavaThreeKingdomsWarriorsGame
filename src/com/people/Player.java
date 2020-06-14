@@ -6,12 +6,13 @@ import com.part.Point;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends People
 {
-    public static List<Image> picList1 = new ArrayList<>();
-    static {
-<<<<<<< HEAD:src/com/people/Player.java
+    public static CopyOnWriteArrayList<Image> picList1 = new CopyOnWriteArrayList<>();
+    static
+    {
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_staycool/Guan_staycool_0.jpg"));
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move/Guan_move_0.jpg"));
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move/Guan_move_1.jpg"));
@@ -26,43 +27,43 @@ public class Player extends People
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_4.jpg"));
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_5.jpg"));
         picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_6.jpg"));
-=======
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_staycool/Guan_staycool_0.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_0.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_1.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_2.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_3.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_4.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_5.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_0.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_1.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_2.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_3.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_4.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_5.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_6.jpg"));
->>>>>>> ff70fb072e2db6935eb85ba3fba6cdbb84491243:dist/src/com/people/Player.java
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_staycool_L/Guan_staycool_0.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_0.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_1.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_2.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_3.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_4.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_5.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_0.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_1.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_2.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_3.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_4.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_5.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_6.png"));
 
 
     }
 
     public int attackpoint=0;
     public int movepoint=0;
-    int KillNumber=0;
+    public int divide=14;
+    public int KillNumber=0;
     public int xMax=1000,xMin=30,yMax=500,yMin=40;
     public int speed;
     private Level level;
 
     EnemyList EnList = EnemyList.getInstance();
 
-    public Player(int HP, List<Image> picList, int x, int y, int height, int width,int speed,int attack)
+    public Player(int HP, CopyOnWriteArrayList<Image> picList, int x, int y, int height, int width,int speed,int attack)
     {
         super(HP, picList, x, y, height, width,attack);
         this.speed=speed;
         this.level = new Level();
     }
 
-    public void update(Point[] points){
+    public void update(Point[] points)
+    {
         ++this.KillNumber;
         int temp1, temp2 = this.KillNumber, div = 100;
         for(int i = 0;i < 3; ++i){
@@ -74,7 +75,8 @@ public class Player extends People
         level.update(0);
     }
 
-    public void update0(Point[] points){
+    public void update0(Point[] points)
+    {
         //++this.KillNumber;
         int temp1, temp2 = this.KillNumber, div = 100;
         for(int i = 0;i < 3; ++i){
@@ -86,27 +88,39 @@ public class Player extends People
         level.update(0);
     }
 
-    public void updateCnt(){
+    public void updateCnt()
+    {
         level.updateCnt();
     }
 
     //运动切换
-    public void MoveSwitchPic(){
-        this.setCurNum(2+movepoint);
+    public void MoveSwitchPic()
+    {
+        this.setCurNum(divide*Dir+2+movepoint);
         movepoint++;
         if(movepoint==6)
             movepoint=0;
+        try {
+            Thread.sleep(1);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
-    public void AttackSwitchPic(){
-        this.setCurNum(8+attackpoint);
+    public void AttackSwitchPic()
+    {
+        this.setCurNum(divide*Dir+8+attackpoint);
         attackpoint++;
         if(attackpoint==7)
         {
             attackpoint=0;
-            this.setCurNum(1);
+            this.setCurNum(divide*Dir+1);
         }
-
+        try {
+            Thread.sleep(1);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 
     public void setMapLimit()
@@ -139,28 +153,26 @@ public class Player extends People
 
     public void MoveLeft()
     {
-        if (this.Dir==1)//左向
-        {
-            x=x-speed;
-            if (x<=xMin) x=xMin+10;
-        }
-        else if (this.Dir==0) //右向
+
+        if (this.Dir==0) //右向
         {
             this.Dir=1; //调整方向
         }
+        x=x-speed;//左向
+        if (x<=xMin) x=xMin+10;
+
     }
 
     public void MoveRight()
     {
-        if (this.Dir == 0)//右向
+        if (this.Dir == 1) //左向
         {
-            x = x + speed;
-            if (x >= xMax) x = xMax - 10;
+        this.Dir = 0; //调整方向
         }
-        else if (this.Dir == 1) //左向
-        {
-            this.Dir = 0; //调整方向
-        }
+        //右向
+        x = x + speed;
+        if (x >= xMax) x = xMax - 10;
+
     }
 
     //攻击
@@ -194,7 +206,8 @@ public class Player extends People
     {
         double dis=Math.sqrt((x-a)*(x-a)+(y-b)*(y-b));
 
-        if (dis>distance+1) return false;
+        if (dis>distance+1)
+            return false;
 
         return true;
     }

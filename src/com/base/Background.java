@@ -29,6 +29,10 @@ public class Background implements photo {
         else this.x = -440;
     }
 
+    public void switchImage(String fileName){
+        this.image = new ImageIcon(fileName).getImage();
+    }
+
     @Override
     public int getX() {
         return x;

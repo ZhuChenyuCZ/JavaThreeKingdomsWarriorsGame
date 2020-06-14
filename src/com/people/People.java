@@ -4,22 +4,26 @@ import com.base.photo;
 
 import java.awt.*;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class People implements photo {
     public int HP;//总血量
     public int curHP;//现血量
-    public List<Image> PicList;
+    public CopyOnWriteArrayList<Image> PicList;
     public int x,y,height,width;
     public int curNum=1;//从1开始
     public int Dir=0;//1是左向，0是右向
-    public int AttackPoint = 50;
+    public int Attack = 50;
 
     @Override
-    public Image getImage() {
+    public Image getImage()
+    {
         return PicList.get(curNum-1);
     }
 
-    public boolean SwitchImage(int cur){
+    public boolean SwitchImage(int cur)
+    {
         if(cur>PicList.size()+1)
             return false;
         else if(cur<1)
@@ -30,7 +34,7 @@ public class People implements photo {
 
     public boolean DieOrAlive(boolean dir,int blood){
         //对于dir，true是加血，false掉血;函数返回false时即死亡
-        if(dir==false){
+        if(!dir){
             curHP-=blood;
             if(curHP<=0){
                 curHP=0;
@@ -49,107 +53,128 @@ public class People implements photo {
 
     }
 
-    public People(int HP, List<Image> picList, int x, int y, int height, int width,int attackPoint) {
+    public People(int HP, CopyOnWriteArrayList<Image> picList, int x, int y, int height, int width, int attackPoint) {
         this.HP = HP;
         PicList = picList;
         this.x = x;
         this.y = y;
         this.height = height;
         this.width = width;
-        this.AttackPoint=attackPoint;
+        this.Attack=attackPoint;
         curHP=HP;
         curNum=1;
         Dir=0;
     }
 
-    public void AddImage(Image a){
+    public void AddImage(Image a)
+    {
         PicList.add(a);
     }
 
-    public void RemoveImage(Image a){
+    public void RemoveImage(Image a)
+    {
         PicList.remove(a);
     }
 
 
-    public int getHP() {
+    public int getHP()
+    {
         return HP;
     }
 
-    public void setHP(int HP) {
+    public void setHP(int HP)
+    {
         this.HP = HP;
     }
 
-    public int getCurHP() {
+    public int getCurHP()
+    {
         return curHP;
     }
 
-    public void setCurHP(int curHP) {
+    public void setCurHP(int curHP)
+    {
         this.curHP = curHP;
     }
 
-    public List<Image> getPicList() {
+    public List<Image> getPicList()
+    {
         return PicList;
     }
 
-    public void setPicList(List<Image> picList) {
+    public void setPicList(CopyOnWriteArrayList<Image> picList)
+    {
         PicList = picList;
     }
 
-    public int getX() {
+    public int getX()
+    {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(int x)
+    {
         this.x = x;
     }
 
-    public int getY() {
+    public int getY()
+    {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(int y)
+    {
         this.y = y;
     }
 
-    public int getHeight() {
+    public int getHeight()
+    {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(int height)
+    {
         this.height = height;
     }
 
-    public int getWidth() {
+    public int getWidth()
+    {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(int width)
+    {
         this.width = width;
     }
 
-    public int getCurNum() {
+    public int getCurNum()
+    {
         return curNum;
     }
 
-    public void setCurNum(int curNum) {
+    public void setCurNum(int curNum)
+    {
         this.curNum = curNum;
     }
 
-    public int getDir() {
+    public int getDir()
+    {
         return Dir;
     }
 
-    public void setDir(int dir) {
+    public void setDir(int dir)
+    {
         Dir = dir;
     }
 
-    public int getAttackPoint() {
-        return AttackPoint;
+    public int getAttack()
+    {
+        return Attack;
     }
 
-    public void setAttackPoint(int attackPoint) {
-        AttackPoint = attackPoint;
+    public void setAttack(int attackPoint)
+    {
+        Attack = attackPoint;
     }
-
 
 }

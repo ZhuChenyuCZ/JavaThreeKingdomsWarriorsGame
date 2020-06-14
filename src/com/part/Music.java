@@ -5,16 +5,20 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.SourceDataLine;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 
 public class Music implements Runnable {
     private AudioInputStream audioInputStream;
+    private BufferedInputStream bufferedInputStream;
     private boolean isDaemon, isRunning;
     public Music(String path, boolean isDaemon) {
         try {
-           audioInputStream = AudioSystem.getAudioInputStream(new File(path));
-           this.isDaemon = isDaemon;
-           this.isRunning = false;
+            audioInputStream = AudioSystem.getAudioInputStream(new File(path));
+            bufferedInputStream = new BufferedInputStream(audioInputStream);
+            this.isDaemon = isDaemon;
+            this.isRunning = false;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -24,7 +28,7 @@ public class Music implements Runnable {
         return isRunning;
     }
 
-     @Override
+    @Override
     public void run() {
         if(isDaemon){
             while (true){
@@ -38,7 +42,7 @@ public class Music implements Runnable {
 
     public void playMusic(){
         try {
-            audioInputStream.mark(0x3f3f3f3f);
+            bufferedInputStream.mark(16777216); //  16777216 = 2 << 23
             AudioFormat audioFormat = audioInputStream.getFormat();
             SourceDataLine sourceDataLine;
             DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
@@ -48,11 +52,11 @@ public class Music implements Runnable {
             int cnt = 0;
             byte[] readByte = new byte[1024];
             while (cnt != -1){
-                cnt = audioInputStream.read(readByte, 0, 1024);
+                cnt = bufferedInputStream.read(readByte, 0, 1024);
                 if(cnt >= 0)
                     sourceDataLine.write(readByte, 0, cnt);
             }
-            audioInputStream.reset();
+            bufferedInputStream.reset();
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -9,43 +9,74 @@ import com.part.Music;
 import com.part.HpInfo;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Test {
-    
-    public static List<photo> totalList = new ArrayList<>(); // 转型成接口列表，用于每次JPlane重画
-
-    static Background background1 = new Background("./resources/b1.jpg");
+    public static CopyOnWriteArrayList<photo> totalList = new CopyOnWriteArrayList<>(); // 转型成接口列表，用于每次JPlane重画
+    public final static Object lock = new Object();
 
     //特殊标注变量区
     static int LevelGlobal;
     static boolean MenuOpen=false;
     static int RestartSignal=0,QuitSignal=0;
-    static int BeginChoice=0,DiffChoooseOp1=2,DiffChoooseOp2=0;
+    static int BeginChoice=0,DiffChoooseOp1=2,DiffChoooseOp2=0,DiffLevel=2,ImproveWhich;
+    static int FanHuiNali=1,GoHome=0;
 
-    static Background background[]= new Background[10];
+    static int[][] EnemyNumber = new int[5][10]; 
     static{
-        background[1] = new Background("./resources/b1.jpg");
-        background[2] = new Background("./resources/background1.jpg");
-        background[3] = new Background("./resources/background2.png");
-        background[4] = new Background("./resources/background (3).png");
-        background[5] = new Background("./resources/background (4).png");
-        background[6] = new Background("./resources/background (5).png");
-        background[7] = new Background("./resources/background (6).png");
+        EnemyNumber[1][1]=3;
+        EnemyNumber[1][2]=4;
+        EnemyNumber[1][3]=5;
+        EnemyNumber[1][4]=5;
+        EnemyNumber[1][5]=7;
+        EnemyNumber[1][6]=8;
+        EnemyNumber[1][7]=10;
+
+        EnemyNumber[2][1]=5;
+        EnemyNumber[2][2]=7;
+        EnemyNumber[2][3]=8;
+        EnemyNumber[2][4]=8;
+        EnemyNumber[2][5]=9;
+        EnemyNumber[2][6]=9;
+        EnemyNumber[2][7]=10;
+
+        EnemyNumber[3][1]=7;
+        EnemyNumber[3][2]=7;
+        EnemyNumber[3][3]=8;
+        EnemyNumber[3][4]=8;
+        EnemyNumber[3][5]=10;
+        EnemyNumber[3][6]=9;
+        EnemyNumber[3][7]=11;
+    }
+
+    static String[] backgroundList = new String[10];
+
+    static{
+        backgroundList[1] = "./resources/b1.jpg";
+        backgroundList[2] = "./resources/background1.jpg";
+        backgroundList[3] = "./resources/background2.png";
+        backgroundList[4] = "./resources/background (3).png";
+        backgroundList[5] = "./resources/background (4).png";
+        backgroundList[6] = "./resources/background (5).png";
+        backgroundList[7] = "./resources/background (6).png";
 
         //暂时有七大背景
     }
+    static Background background= new Background(backgroundList[1]);
+    public static DemoPlane demoPlane = new DemoPlane(totalList);
+    public static KeyBoardMonitor keyBoardMonitor = new KeyBoardMonitor();
+    public static Base base = new Base(demoPlane, keyBoardMonitor);
+    public static ExecutorService executor = Executors.newCachedThreadPool();
 
     //关于点数的这一段
-    static Point[] points = new Point[5];
-    static{
-        for(int i = 0; i < 5; ++i){
-            points[i] = new Point(200 + i * 30);
-            totalList.add(points[i]);
-        }
-    }
+    public static Point[] points = new Point[5];
+    public static Point[] points1 = new Point[5];
 
     //关于音乐
     static Music attackSound = new Music("./resources/attack_1.wav", false);
@@ -72,53 +103,82 @@ public class Test {
     static NormalPhoto EasyYesPhoto = new NormalPhoto("./resources/EasyYesPhoto.png",0,240,180,65);
     static NormalPhoto NormalYesPhoto = new NormalPhoto("./resources/NormalYesPhoto.png",220,240,180,65);
     static NormalPhoto HardYesPhoto = new NormalPhoto("./resources/HardYesPhoto.png",440,240,180,65);
+    static NormalPhoto SuccessPhoto = new NormalPhoto("./resources/SuccessPhoto.png",170,400,300,120);
+    static NormalPhoto ISpeedPhoto = new NormalPhoto("./resources/ISpeedPhoto.png",40,240,280,105);
+    static NormalPhoto IAttackPhoto = new NormalPhoto("./resources/IAttackPhoto.png",340,240,280,105);
+    static NormalPhoto NISpeedPhoto = new NormalPhoto("./resources/NISpeedPhoto.png",40,240,280,105);
+    static NormalPhoto NIAttackPhoto = new NormalPhoto("./resources/NIAttackPhoto.png",340,240,280,105);
+    static NormalPhoto YourScorePhoto = new NormalPhoto("./resources/YourScore.png",170,140,300,120);
+    static NormalPhoto StoryPhoto = new NormalPhoto("./resources/StoryPhoto.png",20,100,600,400);
+    static NormalPhoto DeveloperPhoto = new NormalPhoto("./resources/DeveloperPhoto.png",20,100,600,400);
 
-    public static DemoPlane demoPlane = new DemoPlane(totalList);
     public static void main(String[] args) {
-        
-        ShowWelcomePage();
-        BeginMenuChooseArea();
-        
+        while (FanHuiNali!=0)
+        {
+            
+            if (FanHuiNali==0) break;
+            ShowWelcomePage();
+            
+            BeginMenuChooseArea();
+
+            ShowScore();
+            System.out.println("FanHui:"+FanHuiNali);
+        }
+
         ShowByePage();
         System.out.println("Game End.");
     }
 
-    public static void BeginMenuChooseArea()
-    {
-        int next=1;
-        if (BeginChoice == 0) return;
-        if (BeginChoice == 1) 
-        {
-            //开始游戏
+    public static void BeginMenuChooseArea() {
+        int next = 1;
+        int lastnext = 1;
+        if (BeginChoice == 0)
+            return;
+        if (BeginChoice == 1) {
+            // 开始游戏
             ChooseGameDiff();
+            Control control = new Control();
+            executor.execute(control);
             while (true) {
+                lastnext = next;
                 next = StartToPlay(next);
                 if (next == 0) {
                     break;
                 }
+                if (lastnext != next)
+                    ImprovePointPage();
             }
             return;
         }
         if (BeginChoice == 2) {
+            GoHome=0;
+            ShowStory();
+            GoHome=0;
             return;
         }
         if (BeginChoice == 3) {
+            GoHome=0;
+            ShowStory();
+            GoHome=0;
             return;
         }
         if (BeginChoice == 4) {
+            GoHome=0;
+            ShowDeveloper();
+            GoHome=0;
+            return;
+        }
+        if (BeginChoice == 5) {
             return;
         }
     }
 
     public static void ShowWelcomePage() {
         // 大概就是一个开始的界面。
-        KeyBoardMonitor keyBoardMonitor = new KeyBoardMonitor();
-        // DemoPlane demoPlane = new DemoPlane(totalList);
-        Base base = new Base(demoPlane, keyBoardMonitor);
-
         // 显示logo
         totalList.clear();
-        totalList.add(LogoPhoto);
+        demoPlane.removeAll();
+        demoPlane.addThing(LogoPhoto);
         demoPlane.repaint();
 
         try {
@@ -139,6 +199,7 @@ public class Test {
 
         BeginChoice = 0;
         while (BeginChoice == 0) {
+            otherKeyBoardThing();
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
@@ -156,7 +217,8 @@ public class Test {
             return 0;
 
         // 清除原本内容
-        totalList.clear();
+        demoPlane.removeAll();
+
         EnemyList.getInstance().enemyList.clear();
         player1.curHP = player1.HP;
         player1.x = 20;
@@ -170,34 +232,33 @@ public class Test {
 
         // 设置全局Level变量
         LevelGlobal = Level;
-
         totalList.add(MenuPhoto);
 
-        totalList.add(background[Level]);
-        KeyBoardMonitor keyBoardMonitor = new KeyBoardMonitor();
+        demoPlane.addThing(background);
+        demoPlane.addThing(player1);
+        for (int i = 0; i < 5; ++i) {
+            points[i] = new Point(360 + i * 30);
+            totalList.add(points[i]);
+        }
+
+        background.switchImage(backgroundList[LevelGlobal]);
         HpInfo PlayerHP = new HpInfo(1);
         totalList.add(player1);
         totalList.add(PlayerHP);
-        for (int i = 0; i < 5; ++i) {
-            points[i] = new Point(200 + i * 30);
-            totalList.add(points[i]);
-        }
-        // DemoPlane demoPlane = new DemoPlane(totalList);
-        Base base = new Base(demoPlane, keyBoardMonitor);
+
         // 显示背景，人物，血条等等
 
         // 更换坐标
 
         // 生成新敌人
-        for (int i = 0; i <= 4; i++) {
-            Enemy oneEnemy = new Enemy();
+        System.out.println("DiffLevel:" + DiffLevel);
+        for (int i = 0; i < EnemyNumber[DiffLevel][Level]; i++) {
+            Enemy oneEnemy = new Enemy(DiffLevel);
             EnemyList.getInstance().enemyList.add(oneEnemy);
             totalList.add(oneEnemy);
         }
 
         player1.update0(points);
-        demoPlane.repaint();
-
         totalList.add(ReadyPhoto);
         demoPlane.repaint();
         try {
@@ -218,18 +279,22 @@ public class Test {
         totalList.remove(GoPhoto);
         demoPlane.repaint();
 
-        /*
-         * try { Thread.sleep(1000); } catch (InterruptedException e) { // TODO
-         * Auto-generated catch block e.printStackTrace(); }
-         */
+        if (ImproveWhich == 1) {
+            player1.speed = player1.speed + 20;
+        } else {
+            player1.Attack = player1.Attack + 20;
+        }
 
         while (true) {
+            otherKeyBoardThing();
             // 侦测有无菜单操作
             if (MenuOpen == true) {
+                totalList.remove(MenuOpenPhoto);
                 System.out.println("pause");
                 totalList.add(MenuOpenPhoto);
                 demoPlane.repaint();
                 while (MenuOpen == true) {
+                    otherKeyBoardThing();
                     // System.out.println("MenuOpen:"+MenuOpen);
                     try {
                         Thread.sleep(200);
@@ -256,99 +321,61 @@ public class Test {
                 demoPlane.removeThing(player1);
                 System.out.println("game over");
                 return 0;
-                // 后续看看怎么让画布自动关掉
-                // break;
             }
             if (EnemyList.getInstance().enemyList.size() <= 0) {
                 System.out.println("you win");
                 return Level + 1;
                 // break;
             }
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            modifyPlayer();
             PlayerHP.UpdateHP(player1.curHP);
             if (player1.attackpoint != 0) {
                 player1.AttackSwitchPic();
             }
-            List<Enemy> enemyList = EnemyList.getInstance().enemyList;
-            Iterator<Enemy> iterator = enemyList.iterator();
-            while (iterator.hasNext()) {
-                Enemy enemy = iterator.next();
-                if (enemy.curHP <= 0) {
-                    iterator.remove();
-                    totalList.remove(enemy);
-                    player1.update(points);
-                    continue;
-                }
-                double dist = Math.sqrt(Math.pow(player1.x - enemy.x, 2) + Math.pow(player1.y - enemy.y, 2));
-                if (enemy.attackpoint != 0) {
-                    enemy.SwitchImage(4 + enemy.attackpoint);
-                    enemy.attackpoint++;
-                    if (enemy.attackpoint == 5) {
-                        enemy.attackpoint = 0;
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    /*
-                     * try { Thread.sleep(150); }catch (InterruptedException e){
-                     * e.printStackTrace(); }
-                     */
-                } else if (dist < enemy.speed) {
-                    enemy.Attack(player1, 1, 1);
-                    enemy.SwitchImage(4);
-                    enemy.attackpoint++;
-                } else
-                    enemy.Move(player1, 1, 1);
-            }
             player1.updateCnt();
+            // System.out.println(player1.curNum);
             demoPlane.repaint();
+            try {
+                Thread.sleep(80);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            synchronized (lock) {
+                lock.notifyAll();
+            }
         }
 
         // return 0;
     }
 
-    public static void ChooseGameDiff()
-    {
-        KeyBoardMonitor keyBoardMonitor = new KeyBoardMonitor();
-        //DemoPlane demoPlane = new DemoPlane(totalList);
-        Base base = new Base(demoPlane, keyBoardMonitor);
+    public static void ChooseGameDiff() {
 
         DiffChoooseOp1 = 2;
 
-        while (DiffChoooseOp2 == 0)
-        {
-            if (DiffChoooseOp2!=0) break;
-            if (DiffChoooseOp1 == 1)
-            {
-                //System.out.println(DiffChoooseOp1);
+        while (DiffChoooseOp2 == 0) {
+            otherKeyBoardThing();
+            if (DiffChoooseOp2 != 0)
+                break;
+            DiffLevel = DiffChoooseOp1;
+            if (DiffChoooseOp1 == 1) {
+                // System.out.println(DiffChoooseOp1);
                 totalList.clear();
                 totalList.add(Hint1Photo);
                 totalList.add(EasyYesPhoto);
                 totalList.add(NormalNoPhoto);
                 totalList.add(HardNoPhoto);
                 demoPlane.repaint();
-            }
-            else if (DiffChoooseOp1 == 2)
-            {
-                //System.out.println(DiffChoooseOp1);
+            } else if (DiffChoooseOp1 == 2) {
+                // System.out.println(DiffChoooseOp1);
                 totalList.clear();
                 totalList.add(Hint1Photo);
                 totalList.add(EasyNoPhoto);
                 totalList.add(NormalYesPhoto);
                 totalList.add(HardNoPhoto);
                 demoPlane.repaint();
-            }
-            else if (DiffChoooseOp1 == 3)
-            {
-                //System.out.println(DiffChoooseOp1);
+            } else if (DiffChoooseOp1 == 3) {
+                // System.out.println(DiffChoooseOp1);
                 totalList.clear();
                 totalList.add(Hint1Photo);
                 totalList.add(EasyNoPhoto);
@@ -366,21 +393,72 @@ public class Test {
 
     }
 
-    public static void ShowByePage()
-    {
-        //大概就是一个开始的界面。
-        KeyBoardMonitor keyBoardMonitor = new KeyBoardMonitor();
-        //DemoPlane demoPlane = new DemoPlane(totalList);
-        Base base = new Base(demoPlane, keyBoardMonitor);
+    public static void ImprovePointPage() {
 
-        //显示logo
+        DiffChoooseOp1 = 2;
+        DiffChoooseOp2 = 0;
+
+        totalList.add(SuccessPhoto);
+        totalList.add(Hint1Photo);
+        demoPlane.repaint();
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Command.keySet.clear();
+
+        while (DiffChoooseOp2 == 0) {
+            otherKeyBoardThing();
+            if (DiffChoooseOp2 != 0)
+                break;
+            ImproveWhich = DiffChoooseOp1;
+            if (DiffChoooseOp1 == 1 || DiffChoooseOp1 == 3) {
+                // System.out.println(DiffChoooseOp1);
+                totalList.add(ISpeedPhoto);
+                totalList.add(NIAttackPhoto);
+                demoPlane.repaint();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                totalList.remove(ISpeedPhoto);
+                totalList.remove(NIAttackPhoto);
+            } else if (DiffChoooseOp1 == 2) {
+                // System.out.println(DiffChoooseOp1);
+                totalList.add(NISpeedPhoto);
+                totalList.add(IAttackPhoto);
+                demoPlane.repaint();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                totalList.remove(NISpeedPhoto);
+                totalList.remove(IAttackPhoto);
+            }
+        }
+        if (ImproveWhich == 3) {
+            ImproveWhich = 1;
+        }
+        totalList.remove(SuccessPhoto);
+        totalList.remove(Hint1Photo);
+    }
+
+    public static void ShowByePage() {
+
+        // 显示logo
         totalList.clear();
         totalList.add(LogoPhoto);
         totalList.add(ByeWordPhoto);
         demoPlane.repaint();
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -389,49 +467,161 @@ public class Test {
         totalList.remove(LogoPhoto);
         totalList.remove(ByeWordPhoto);
         demoPlane.repaint();
-        //demoPlane.removeThing(LogoPhoto);
+        System.exit(0);
+        // demoPlane.removeThing(LogoPhoto);
     }
 
-    public static void modifyPlayer(Command InputKey) {
-        if (InputKey == Command.UP) {
-            if(player1.attackpoint!=0)
-                return;
-            player1.MoveUp();
-            player1.MoveSwitchPic();
-            return;
+    public static void ShowScore()
+    {
+        totalList.clear();
+        for(int i = 0; i < 5; ++i){
+            points1[i] = new Point(220 + i * 30,450);
+            totalList.add(points1[i]);
         }
-        if (InputKey == Command.LEFT) {
-            if(player1.attackpoint!=0)
-                return;
-            if(background[LevelGlobal].getX() <= 0)
-                background[LevelGlobal].moveRight(player1.speed);
-            else player1.MoveLeft();
-            player1.MoveSwitchPic();
-            return;
+        totalList.add(YourScorePhoto);
+        player1.update0(points1);
+        demoPlane.repaint();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-        if (InputKey == Command.DOWN) {
-            if(player1.attackpoint!=0)
-                return;
-            player1.MoveDown();
-            player1.MoveSwitchPic();
-            return;
+        player1.KillNumber=0;
+    }
+
+    public static void ShowStory()
+    {
+        totalList.clear();
+        totalList.add(StoryPhoto);
+        demoPlane.repaint();
+        while (GoHome == 0)
+        {
+            otherKeyBoardThing();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            if (GoHome!=0) break; 
         }
-        if (InputKey == Command.RIGHT) {
-            if(player1.attackpoint!=0)
-                return;
-            if(player1.getX() <= 450)
-                player1.MoveRight();
-            else background[LevelGlobal].moveLeft(player1.speed);
-            player1.MoveSwitchPic();
-            return;
+    }
+
+    public static void ShowDeveloper()
+    {
+        totalList.clear();
+        totalList.add(DeveloperPhoto);
+        demoPlane.repaint();
+        while (GoHome == 0)
+        {
+            otherKeyBoardThing();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            if (GoHome!=0) break; 
         }
-        if (InputKey == Command.ATTACK) {
-            if(player1.attackpoint!=0)
-                return;
+    }
+
+    public static void otherKeyBoardThing(){
+        if(Command.DOWN.use()){
+            Test.BeginMenuControl(Command.DOWN);
+        }
+        else if(Command.LEFT.use()){
+            Test.DiffChooseControl(Command.LEFT);
+        }
+        else if(Command.RIGHT.use()){
+            Test.BeginMenuControl(Command.RIGHT);
+            Test.DiffChooseControl(Command.RIGHT);
+        }
+        else if(Command.ATTACK.use()){
+            Test.BeginMenuControl(Command.ATTACK);
+            Test.DiffChooseControl(Command.ATTACK);
+        }
+        else if(Command.JUMP.use()){
+            Test.BeginMenuControl(Command.JUMP);
+        }
+        else if(Command.MENU.use()){
+            Test.MenuControl(Command.MENU);
+        }
+        else if(Command.BACK.use()){
+            Test.MenuControl(Command.BACK);
+        }
+        else if(Command.PAUSE.use()){
+            Test.MenuControl(Command.PAUSE);
+        }
+        else if(Command.RESTART.use()){
+            Test.MenuControl(Command.RESTART);
+        }
+        else if(Command.QUIT.use()){
+            Test.MenuControl(Command.QUIT);
+        }
+        else if(Command.END.use()){
+            Test.BeginMenuControl(Command.END);
+            FanHuiNali=0;
+            System.out.println("OK to Fanhui");
+        }
+        else if(Command.HOME.use()){
+            //Test.MenuControl(Command.HOME);
+            GoHome=1;
+            System.out.println("OK to GoHome");
+        }
+    }
+
+    public static void modifyPlayer() {
+        boolean temp = false;
+        if(player1.attackpoint != 0)
+            return;
+        if (Command.ATTACK.use()) {
             player1.Attack(1, 30, 50);
             player1.AttackSwitchPic();
-
+            executor.execute(attackSound);
+            return;
         }
+
+        if (Command.UP.use()) {
+            player1.MoveUp();
+            temp = true;
+            player1.MoveSwitchPic();
+            //return;
+        }
+        if (Command.LEFT.use()) {
+            temp = true;
+            if(background.getX() <= 0)
+            {
+                player1.Dir=1;
+                background.moveRight(player1.speed);
+            }
+
+            else player1.MoveLeft();
+            player1.MoveSwitchPic();
+            //return;
+        }
+        if (Command.DOWN.use()) {
+            temp = true;
+            player1.MoveDown();
+            player1.MoveSwitchPic();
+            //return;
+        }
+        if (Command.RIGHT.use()) {
+            temp = true;
+            if(player1.getX() <= 450)
+                player1.MoveRight();
+            else
+            {
+                player1.Dir=0;
+                background.moveLeft(player1.speed);
+            }
+            player1.MoveSwitchPic();
+            //return;
+        }
+//        if(temp)
+//        {
+//            player1.MoveSwitchPic();
+//        }
 
     }
 
@@ -461,11 +651,11 @@ public class Test {
 
     public static void BeginMenuControl(Command InputKey)
     {
-        if (InputKey == Command.START){
+        if (InputKey == Command.DOWN){
             BeginChoice=1;
             return;
         }
-        if (InputKey == Command.KEY){
+        if (InputKey == Command.JUMP){
             BeginChoice=2;
             return;
         }
@@ -473,8 +663,12 @@ public class Test {
             BeginChoice=3;
             return;
         }
-        if (InputKey == Command.DEVELOP){
+        if (InputKey == Command.RIGHT){
             BeginChoice=4;
+            return;
+        }
+        if (InputKey == Command.END){
+            BeginChoice=5;
             return;
         }
     }
@@ -484,7 +678,7 @@ public class Test {
         if (InputKey == Command.LEFT){
             DiffChoooseOp1=DiffChoooseOp1-1;
             if (DiffChoooseOp1 == 0) DiffChoooseOp1=3;
-            System.out.println(DiffChoooseOp1);
+            //System.out.println(DiffChoooseOp1);
             return;
         }
         if (InputKey == Command.RIGHT){

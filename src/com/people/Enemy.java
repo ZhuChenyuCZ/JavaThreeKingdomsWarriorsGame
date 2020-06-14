@@ -5,14 +5,13 @@ import com.Test;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class Enemy extends People {
-    public static List<Image> picListEnemy = new ArrayList<>();
+    public static CopyOnWriteArrayList<Image> picListEnemy = new CopyOnWriteArrayList<>();
     static {
-        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/敌兵_静止.gif"));
-        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/敌兵_移动.gif"));
-        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/敌兵_攻击.gif"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_attack/E1_attack_4.jpg"));
         picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_attack/E1_attack_0.jpg"));
         picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_attack/E1_attack_1.jpg"));
         picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_attack/E1_attack_2.jpg"));
@@ -25,21 +24,42 @@ public class Enemy extends People {
         picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_move/E1_move_4.jpg"));
         picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_move/E1_move_5.jpg"));
         picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_move/E1_move_6.jpg"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_move_L/E1_move_6.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_attack_L/E1_attack_0.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_attack_L/E1_attack_1.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_attack_L/E1_attack_2.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_attack_L/E1_attack_3.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_attack_L/E1_attack_4.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_move_L/E1_move_0.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_move_L/E1_move_1.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_move_L/E1_move_2.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_move_L/E1_move_3.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_move_L/E1_move_4.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_move_L/E1_move_5.png"));
+        picListEnemy.add(Toolkit.getDefaultToolkit().getImage("./resources/E1_move_L/E1_move_6.png"));
     }
 
     public int attackpoint=0;
     public int movpoint=0;
+    public int divide=13;
     public int speed=5;
+    public long attackTimeStamp, moveTimeStamp;
     public Enemy(){
-        super(40, picListEnemy,((int)(Math.random() * 500)%2)*1000,(int)(Math.random() * 50), 170, 85, 1);
+        super(40, picListEnemy,((int)(Math.random() * 500)%2)*1000,(int)(Math.random() * 500), 170, 85, 1);
     }
 
-    public Enemy(int HP, List<Image> picList, int x, int y, int height, int width, int speed, int attack) {
+    public Enemy(int Diff)
+    {
+        super(50*Diff, picListEnemy,((int)(Math.random() * 500)%2)*1000,(int)(Math.random() * 500), 170, 85, Diff);
+    }
+
+    public Enemy(int HP, CopyOnWriteArrayList<Image> picList, int x, int y, int height, int width, int speed, int attack) {
         super(HP, picList, x, y, height, width,attack);
         this.speed=speed;
     }
 
     public void Move(Player a, int LImage, int RImage){
+        moveTimeStamp =  System.currentTimeMillis();
         if(a.x<this.x){
             this.Dir=1;//向左
     //        this.setCurNum(LImage);//左向图
@@ -48,7 +68,7 @@ public class Enemy extends People {
             this.Dir=0;
     //        this.setCurNum(RImage);
         }
-        this.setCurNum(9+movpoint);
+        this.setCurNum(Dir*divide+7+movpoint);
         movpoint++;
         if(movpoint==7)
             movpoint=0;
@@ -64,6 +84,7 @@ public class Enemy extends People {
     }
 
     public void Attack(Player a,int LImage,int RImage){
+        attackTimeStamp =  System.currentTimeMillis();
         double dis=Math.sqrt(Math.pow(a.x-this.x,2)+Math.pow(a.y-this.y,2));
         if(dis>a.speed)
             return;
@@ -71,8 +92,14 @@ public class Enemy extends People {
       //      this.setCurNum(LImage);
       //  else if (Dir==0)
       //      this.setCurNum(RImage);
-        a.DieOrAlive(false,AttackPoint);
+        a.DieOrAlive(false,Attack);
         //剩下的要考虑切换图片之类的先不写了
+    }
+
+    public void AttackPostivie(Player a){
+        double dis=Math.sqrt(Math.pow(a.x-this.x,2)+Math.pow(a.y-this.y,2));
+        if(dis<a.speed)
+            a.DieOrAlive(false,Attack);
     }
 
 

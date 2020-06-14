@@ -3,8 +3,10 @@ package com.people;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class EnemyList {
-    public List<Enemy> enemyList = new ArrayList<>();
+    public CopyOnWriteArrayList<Enemy> enemyList = new CopyOnWriteArrayList<>();
     private static final EnemyList instance=new EnemyList();
     private EnemyList(){
     }
