@@ -8,18 +8,19 @@ import java.util.*;
 import java.util.List;
 
 public class Point implements photo {
+    //分数图片显示
     private static final List<Image> imageList = new ArrayList<>();
     static {
-        imageList.add(new ImageIcon("./resources/number0.jpg").getImage());
-        imageList.add(new ImageIcon("./resources/number1.jpg").getImage());
-        imageList.add(new ImageIcon("./resources/number2.jpg").getImage());
-        imageList.add(new ImageIcon("./resources/number3.jpg").getImage());
-        imageList.add(new ImageIcon("./resources/number4.jpg").getImage());
-        imageList.add(new ImageIcon("./resources/number5.jpg").getImage());
-        imageList.add(new ImageIcon("./resources/number6.jpg").getImage());
-        imageList.add(new ImageIcon("./resources/number7.jpg").getImage());
-        imageList.add(new ImageIcon("./resources/number8.jpg").getImage());
-        imageList.add(new ImageIcon("./resources/number9.jpg").getImage());
+        imageList.add(new ImageIcon("src/resources/number0.jpg").getImage());
+        imageList.add(new ImageIcon("src/resources/number1.jpg").getImage());
+        imageList.add(new ImageIcon("src/resources/number2.jpg").getImage());
+        imageList.add(new ImageIcon("src/resources/number3.jpg").getImage());
+        imageList.add(new ImageIcon("src/resources/number4.jpg").getImage());
+        imageList.add(new ImageIcon("src/resources/number5.jpg").getImage());
+        imageList.add(new ImageIcon("src/resources/number6.jpg").getImage());
+        imageList.add(new ImageIcon("src/resources/number7.jpg").getImage());
+        imageList.add(new ImageIcon("src/resources/number8.jpg").getImage());
+        imageList.add(new ImageIcon("src/resources/number9.jpg").getImage());
     }
     private int y = 18, width = 25, height = 25;
     private int x,curNum;

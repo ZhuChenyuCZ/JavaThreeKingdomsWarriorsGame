@@ -10,6 +10,7 @@ import static com.Test.points;
 import static com.Test.lock;
 
 public class Control extends Thread {
+    //单独敌人线程，优化体验
 
     @Override
     public void run() {
@@ -20,6 +21,7 @@ public class Control extends Thread {
                 while (iterator.hasNext())
                 {
                     Enemy enemy = iterator.next();
+                    //移出敌人
                     if (enemy.curHP <= 0)
                     {
                         enemyList.remove(enemy);
@@ -28,6 +30,7 @@ public class Control extends Thread {
                         continue;
                     }
                     double dist = Math.sqrt(Math.pow(player1.x-enemy.x,2)+Math.pow(player1.y - enemy.y,2));
+                    //攻击的帧数切换
                     if(enemy.attackpoint!=0)
                     {
                         enemy.SwitchImage(enemy.Dir*enemy.divide+2+enemy.attackpoint);

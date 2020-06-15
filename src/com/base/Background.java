@@ -13,7 +13,6 @@ public class Background implements photo {
 
     public void ChangeFile(String fileName)
     {
-        //似乎这个没用
         image = new ImageIcon(fileName).getImage();
     }
 

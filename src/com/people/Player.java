@@ -13,34 +13,34 @@ public class Player extends People
     public static CopyOnWriteArrayList<Image> picList1 = new CopyOnWriteArrayList<>();
     static
     {
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_staycool/Guan_staycool_0.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move/Guan_move_0.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move/Guan_move_1.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move/Guan_move_2.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move/Guan_move_3.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move/Guan_move_4.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move/Guan_move_5.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_0.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_1.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_2.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_3.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_4.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_5.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack/Guan_attack_6.jpg"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_staycool_L/Guan_staycool_0.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_0.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_1.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_2.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_3.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_4.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_move_L/Guan_move_5.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_0.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_1.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_2.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_3.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_4.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_5.png"));
-        picList1.add(Toolkit.getDefaultToolkit().getImage("./resources/Guan_attack_L/Guan_attack_6.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_staycool/Guan_staycool_0.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_0.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_1.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_2.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_3.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_4.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move/Guan_move_5.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_0.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_1.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_2.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_3.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_4.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_5.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack/Guan_attack_6.jpg"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_staycool_L/Guan_staycool_0.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move_L/Guan_move_0.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move_L/Guan_move_1.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move_L/Guan_move_2.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move_L/Guan_move_3.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move_L/Guan_move_4.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_move_L/Guan_move_5.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack_L/Guan_attack_0.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack_L/Guan_attack_1.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack_L/Guan_attack_2.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack_L/Guan_attack_3.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack_L/Guan_attack_4.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack_L/Guan_attack_5.png"));
+        picList1.add(Toolkit.getDefaultToolkit().getImage("src/resources/Guan_attack_L/Guan_attack_6.png"));
 
 
     }

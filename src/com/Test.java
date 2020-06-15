@@ -15,6 +15,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
+
 public class Test {
     public static CopyOnWriteArrayList<photo> totalList = new CopyOnWriteArrayList<>(); // 转型成接口列表，用于每次JPlane重画
     public final static Object lock = new Object();
@@ -26,6 +28,7 @@ public class Test {
     static int BeginChoice=0,DiffChoooseOp1=2,DiffChoooseOp2=0,DiffLevel=2,ImproveWhich;
     static int FanHuiNali=1,GoHome=0;
 
+    //通过数组调节关卡难度
     static int[][] EnemyNumber = new int[4][8];
     static{
         EnemyNumber[1][1]=3;
@@ -56,13 +59,13 @@ public class Test {
     static String[] backgroundList = new String[10];
 
     static{
-        backgroundList[1] = "./resources/b1.jpg";
-        backgroundList[2] = "./resources/background1.jpg";
-        backgroundList[3] = "./resources/background2.png";
-        backgroundList[4] = "./resources/background (3).png";
-        backgroundList[5] = "./resources/background (4).png";
-        backgroundList[6] = "./resources/background (5).png";
-        backgroundList[7] = "./resources/background (6).png";
+        backgroundList[1] = "src/resources/b1.jpg";
+        backgroundList[2] = "src/resources/background1.jpg";
+        backgroundList[3] = "src/resources/background2.png";
+        backgroundList[4] = "src/resources/background (3).png";
+        backgroundList[5] = "src/resources/background (4).png";
+        backgroundList[6] = "src/resources/background (5).png";
+        backgroundList[7] = "src/resources/background (6).png";
 
         //暂时有七大背景
     }
@@ -72,50 +75,51 @@ public class Test {
     public static Base base = new Base(demoPlane, keyBoardMonitor);
     public static ExecutorService executor = Executors.newCachedThreadPool();
 
-    //关于点数的这一段
+    //存储点数的展示
     public static Point[] points = new Point[5];
     public static Point[] points1 = new Point[5];
 
     //关于音乐
-    static Music attackSound = new Music("./resources/attack_1.wav", false);
+    static Music attackSound = new Music("src/resources/attack_1.wav", false);
     static{
-        Music music = new Music("./resources/background_music.wav", true);
+        Music music = new Music("src/resources/background_music.wav", true);
         Thread daemon = new Thread(music);
         daemon.setDaemon(true);
         daemon.start();
     }
 
-
+    //各类开始界面和小按钮
     public static Player player1 = new Player(14, Player.picList1, 20, 100, 150, 85, 10, 50);
-    static NormalPhoto LogoPhoto = new NormalPhoto("./resources/logo1.jpg",100,100,400,400);
-    static NormalPhoto MenuPhoto = new NormalPhoto("./resources/MenuPhoto.png",0,0,200,20);
-    static NormalPhoto MenuOpenPhoto = new NormalPhoto("./resources/MenuOpenPhoto.png",100,100,400,400);
-    static NormalPhoto BeginMenuPhoto = new NormalPhoto("./resources/BeginMenu.png",100,100,400,400);
-    static NormalPhoto ByeWordPhoto = new NormalPhoto("./resources/ByeWord.png",210,440,200,60);
-    static NormalPhoto ReadyPhoto = new NormalPhoto("./resources/readyPhoto.png",120,240,400,120);
-    static NormalPhoto GoPhoto = new NormalPhoto("./resources/GoPhoto.png",170,240,300,120);
-    static NormalPhoto Hint1Photo = new NormalPhoto("./resources/hint1.png",170,40,300,120);
-    static NormalPhoto EasyNoPhoto = new NormalPhoto("./resources/EasyNoPhoto.png",0,240,180,65);
-    static NormalPhoto NormalNoPhoto = new NormalPhoto("./resources/NormalNoPhoto.png",220,240,180,65);
-    static NormalPhoto HardNoPhoto = new NormalPhoto("./resources/HardNoPhoto.png",440,240,180,65);
-    static NormalPhoto EasyYesPhoto = new NormalPhoto("./resources/EasyYesPhoto.png",0,240,180,65);
-    static NormalPhoto NormalYesPhoto = new NormalPhoto("./resources/NormalYesPhoto.png",220,240,180,65);
-    static NormalPhoto HardYesPhoto = new NormalPhoto("./resources/HardYesPhoto.png",440,240,180,65);
-    static NormalPhoto SuccessPhoto = new NormalPhoto("./resources/SuccessPhoto.png",170,400,300,120);
-    static NormalPhoto ISpeedPhoto = new NormalPhoto("./resources/ISpeedPhoto.png",40,240,280,105);
-    static NormalPhoto IAttackPhoto = new NormalPhoto("./resources/IAttackPhoto.png",340,240,280,105);
-    static NormalPhoto NISpeedPhoto = new NormalPhoto("./resources/NISpeedPhoto.png",40,240,280,105);
-    static NormalPhoto NIAttackPhoto = new NormalPhoto("./resources/NIAttackPhoto.png",340,240,280,105);
-    static NormalPhoto YourScorePhoto = new NormalPhoto("./resources/YourScore.png",170,140,300,120);
-    static NormalPhoto StoryPhoto = new NormalPhoto("./resources/StoryPhoto.png",20,100,600,400);
-    static NormalPhoto DeveloperPhoto = new NormalPhoto("./resources/DeveloperPhoto.png",20,100,600,400);
+    static NormalPhoto LogoPhoto = new NormalPhoto("src/resources/logo1.jpg",100,100,400,400);
+    static NormalPhoto MenuPhoto = new NormalPhoto("src/resources/MenuPhoto.png",0,0,200,20);
+    static NormalPhoto MenuOpenPhoto = new NormalPhoto("src/resources/MenuOpenPhoto.png",100,100,400,400);
+    static NormalPhoto BeginMenuPhoto = new NormalPhoto("src/resources/BeginMenu.png",100,100,400,400);
+    static NormalPhoto ByeWordPhoto = new NormalPhoto("src/resources/ByeWord.png",210,440,200,60);
+    static NormalPhoto ReadyPhoto = new NormalPhoto("src/resources/readyPhoto.png",120,240,400,120);
+    static NormalPhoto GoPhoto = new NormalPhoto("src/resources/GoPhoto.png",170,240,300,120);
+    static NormalPhoto Hint1Photo = new NormalPhoto("src/resources/hint1.png",170,40,300,120);
+    static NormalPhoto EasyNoPhoto = new NormalPhoto("src/resources/EasyNoPhoto.png",0,240,180,65);
+    static NormalPhoto NormalNoPhoto = new NormalPhoto("src/resources/NormalNoPhoto.png",220,240,180,65);
+    static NormalPhoto HardNoPhoto = new NormalPhoto("src/resources/HardNoPhoto.png",440,240,180,65);
+    static NormalPhoto EasyYesPhoto = new NormalPhoto("src/resources/EasyYesPhoto.png",0,240,180,65);
+    static NormalPhoto NormalYesPhoto = new NormalPhoto("src/resources/NormalYesPhoto.png",220,240,180,65);
+    static NormalPhoto HardYesPhoto = new NormalPhoto("src/resources/HardYesPhoto.png",440,240,180,65);
+    static NormalPhoto SuccessPhoto = new NormalPhoto("src/resources/SuccessPhoto.png",170,400,300,120);
+    static NormalPhoto ISpeedPhoto = new NormalPhoto("src/resources/ISpeedPhoto.png",40,240,280,105);
+    static NormalPhoto IAttackPhoto = new NormalPhoto("src/resources/IAttackPhoto.png",340,240,280,105);
+    static NormalPhoto NISpeedPhoto = new NormalPhoto("src/resources/NISpeedPhoto.png",40,240,280,105);
+    static NormalPhoto NIAttackPhoto = new NormalPhoto("src/resources/NIAttackPhoto.png",340,240,280,105);
+    static NormalPhoto YourScorePhoto = new NormalPhoto("src/resources/YourScore.png",170,140,300,120);
+    static NormalPhoto StoryPhoto = new NormalPhoto("src/resources/StoryPhoto.png",20,100,600,400);
+    static NormalPhoto DeveloperPhoto = new NormalPhoto("src/resources/DeveloperPhoto.png",20,100,600,400);
 
 
     public static void main(String[] args) {
         while (FanHuiNali!=0)
         {
-            
+            //时刻检测是否会退出
             if (FanHuiNali==0) break;
+            //开始界面展示
             ShowWelcomePage();
             if (FanHuiNali==0) break;
             BeginMenuChooseArea();
@@ -138,7 +142,7 @@ public class Test {
             return;
         if (BeginChoice == 1) 
         {
-            //开始游戏
+            //关卡选择
             ChooseGameDiff();
             Control control = new Control();
             executor.execute(control);
@@ -196,7 +200,6 @@ public class Test {
 
         totalList.remove(LogoPhoto);
         demoPlane.repaint();
-        // demoPlane.removeThing(LogoPhoto);
 
         // 选项界面
         totalList.clear();
@@ -229,6 +232,7 @@ public class Test {
 
 
         EnemyList.getInstance().enemyList.clear();
+        //玩家初始值设定
         player1.curHP = player1.HP;
         player1.x =300;
         player1.y = 300;
@@ -262,15 +266,18 @@ public class Test {
         // 生成新敌人
         System.out.println("DiffLevel:" + DiffLevel);
         for (int i = 0; i < EnemyNumber[DiffLevel][Level]; i++) {
+            //小兵生成
             Enemy oneEnemy = new Enemy(DiffLevel);
             EnemyList.getInstance().enemyList.add(oneEnemy);
             totalList.add(oneEnemy);
             if(i>4){
+                //敌人A
                 oneEnemy = new EnemyA(DiffLevel);
                 EnemyList.getInstance().enemyList.add(oneEnemy);
                 totalList.add(oneEnemy);
             }
             if(i>7){
+                //敌人B
                 oneEnemy = new EnemyB(DiffLevel);
                 EnemyList.getInstance().enemyList.add(oneEnemy);
                 totalList.add(oneEnemy);
@@ -298,6 +305,7 @@ public class Test {
         totalList.remove(GoPhoto);
         demoPlane.repaint();
 
+        //属性加成
         if (ImproveWhich==1)
         {
             player1.speed=player1.speed+5;
@@ -317,7 +325,6 @@ public class Test {
                 demoPlane.repaint();
                 while (MenuOpen == true) {
                     otherKeyBoardThing();
-                    // System.out.println("MenuOpen:"+MenuOpen);
                     try {
                         Thread.sleep(200);
                     } catch (InterruptedException e) {
@@ -347,15 +354,14 @@ public class Test {
             if (EnemyList.getInstance().enemyList.size() <= 0) {
                 System.out.println("you win");
                 return Level + 1;
-                // break;
             }
             modifyPlayer();
             PlayerHP.UpdateHP(player1.curHP);
+            //对于攻击的帧数切换
             if (player1.attackpoint != 0) {
                 player1.AttackSwitchPic();
             }
             player1.updateCnt();
-            //System.out.println(player1.curNum);
             demoPlane.repaint();
              try {
                  Thread.sleep(80);
@@ -363,14 +369,15 @@ public class Test {
                  e.printStackTrace();
              }
 
+            //线程锁的应用
             synchronized (lock) {
                 lock.notifyAll();
             }
         }
 
-        // return 0;
     }
 
+    //关卡切换
     public static void ChooseGameDiff() {
 
         DiffChoooseOp1 = 2;
@@ -415,6 +422,7 @@ public class Test {
 
     }
 
+    //属性增加页面
     public static void ImprovePointPage()
     {
 
@@ -476,11 +484,11 @@ public class Test {
         totalList.remove(Hint1Photo);
     }
 
+    //结束页面展示
     public static void ShowByePage()
     {
 
         //显示logo
-        //totalList.clear();
         totalList.clear();
         totalList.add(LogoPhoto);
         totalList.add(ByeWordPhoto);
@@ -497,9 +505,9 @@ public class Test {
         totalList.remove(ByeWordPhoto);
         demoPlane.repaint();
         System.exit(0);
-        //demoPlane.removeThing(LogoPhoto);
     }
 
+    //显示分数
     public static void ShowScore()
     {
         totalList.clear();
@@ -519,6 +527,7 @@ public class Test {
         player1.KillNumber=0;
     }
 
+    //背景故事展示函数
     public static void ShowStory()
     {
         totalList.clear();
@@ -537,6 +546,7 @@ public class Test {
         }
     }
 
+    //开发人员展示
     public static void ShowDeveloper()
     {
         totalList.clear();
@@ -555,6 +565,7 @@ public class Test {
         }
     }
 
+    //开始页面键盘监听
     public static void otherKeyBoardThing(){
         if(Command.DOWN.use()){
             Test.BeginMenuControl(Command.DOWN);
@@ -600,8 +611,10 @@ public class Test {
         
     }
 
+    //游戏人物键盘监听
     public static void modifyPlayer() {
         boolean temp = false;
+        //攻击未完成时不会进行其他动作
         if(player1.attackpoint != 0)
             return;
         if (Command.ATTACK.use()) {
@@ -622,6 +635,7 @@ public class Test {
             if(background.getX() <= 0)
             {
                 player1.Dir=1;
+                //通过对敌人和背景的移动实现横板展示
                 background.moveRight(player1.speed);
                 for(Enemy t:EnemyList.getInstance().enemyList){
                     t.x+=player1.speed;
@@ -630,13 +644,11 @@ public class Test {
 
             else player1.MoveLeft();
             player1.MoveSwitchPic();
-            //return;
         }
         if (Command.DOWN.use()) {
             temp = true;
             player1.MoveDown();
             player1.MoveSwitchPic();
-            //return;
         }
         if (Command.RIGHT.use()) {
             temp = true;
@@ -651,16 +663,11 @@ public class Test {
                 }
             }
             player1.MoveSwitchPic();
-            //return;
         }
-//        if(temp)
-//        {
-//            player1.MoveSwitchPic();
-//        }
-
     }
 
 
+    //游戏菜单展示
     public static void MenuControl(Command InputKey)
     {
         if (InputKey == Command.MENU){
@@ -685,6 +692,7 @@ public class Test {
 
     }
 
+    //开始界面标识符转换
     public static void BeginMenuControl(Command InputKey)
     {
         if (InputKey == Command.DOWN){
@@ -710,6 +718,7 @@ public class Test {
         }
     }
 
+    //属性加成按键监听
     public static void DiffChooseControl(Command InputKey)
     {
         if (InputKey == Command.LEFT){

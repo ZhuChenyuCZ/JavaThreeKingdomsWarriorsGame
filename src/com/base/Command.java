@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public enum Command {
+    //按键枚举类
 //    UP, DOWN, LEFT, RIGHT, ATTACK, JUMP, MENU, PAUSE, RESTART, QUIT, BACK, START, KEY, DEVELOP, HOME
     UP(KeyEvent.VK_W),
     DOWN(KeyEvent.VK_S),

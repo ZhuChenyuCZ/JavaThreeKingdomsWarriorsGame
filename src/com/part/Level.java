@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Level implements photo{
-    private static final Image image = new ImageIcon("./resources/升级.jpg").getImage();
+    private static final Image image = new ImageIcon("src/resources/升级.jpg").getImage();
 
     private final static int x = 250, y = 300, width = 100, height = 100;
     private final static int[] levelRage = {10, 20, 30, 50, 80, 120};
